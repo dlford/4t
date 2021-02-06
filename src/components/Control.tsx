@@ -1,31 +1,47 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
+import { h, JSX } from 'preact'
+import { styled } from 'goober'
 
-class Control extends Component {
-
-  render (props) {
-    return (
-      <StyledControl>
-        <input
-          type='checkbox'
-          name={this.props.name}
-          id={this.props.name}
-          className='ios-toggle'
-          onChange={event => this.props.changeSettings(event)}
-          checked={ this.props.isEnabled ? 'checked' : '' }
-        />
-        <label
-          htmlFor={this.props.name}
-          className='checkbox-label'
-          data-off={this.props.labelOff}
-          data-on={this.props.labelOn}
-        />
-      </StyledControl>
-    )
-  }
+export interface ControlComponentProps {
+  name: string
+  changeSettings(
+    arg0: JSX.TargetedEvent<HTMLInputElement, Event>,
+  ): void
+  isEnabled: boolean
+  labelOff: string
+  labelOn: string
+  testId: string
 }
 
-const StyledControl = styled.div`
+export default function ControlComponent({
+  name,
+  changeSettings,
+  isEnabled,
+  labelOff,
+  labelOn,
+  testId,
+}: ControlComponentProps): JSX.Element {
+  return (
+    <StyledControl>
+      <input
+        type='checkbox'
+        data-testId={testId}
+        name={name}
+        id={name}
+        className='ios-toggle'
+        onChange={(event) => changeSettings(event)}
+        checked={isEnabled}
+      />
+      <label
+        htmlFor={name}
+        className='checkbox-label'
+        data-off={labelOff}
+        data-on={labelOn}
+      />
+    </StyledControl>
+  )
+}
+
+const StyledControl = styled('div')`
   width: 60px;
   text-align: center;
   padding: 1rem;
@@ -92,7 +108,8 @@ const StyledControl = styled.div`
     right: auto;
     background: #ddd;
     /*box-shadow*/
-    -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2), 0 0 0 2px #dddddd;
+    -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2),
+      0 0 0 2px #dddddd;
     -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2), 0 0 0 2px #dddddd;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2), 0 0 0 2px #dddddd;
   }
@@ -122,8 +139,10 @@ const StyledControl = styled.div`
   .ios-toggle:checked + .checkbox-label:before {
     left: calc(100% - 36px);
     /*box-shadow*/
-    -webkit-box-shadow: 0 0 0 2px transparent, 0 3px 3px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0 0 0 2px transparent, 0 3px 3px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 0 0 2px transparent,
+      0 3px 3px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 0 0 2px transparent,
+      0 3px 3px rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 0 2px transparent, 0 3px 3px rgba(0, 0, 0, 0.3);
   }
   .ios-toggle:checked + .checkbox-label:after {
@@ -131,6 +150,19 @@ const StyledControl = styled.div`
     left: 60px;
     width: 36px;
   }
+  @media screen and (max-width: 400px) {
+    margin-top: 1rem;
+    .checkbox-label:after {
+      top: -25px;
+      left: -44px;
+      padding: unset;
+      height: unset;
+      width: 150px;
+      text-align: center;
+    }
+    .ios-toggle:checked + .checkbox-label:after {
+      left: -44px;
+      width: 150px;
+    }
+  }
 `
-
-export default Control
