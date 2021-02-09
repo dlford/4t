@@ -12,12 +12,7 @@
     "url": "https://github.com/dlford/4t/issues"
   },
   "repository": "https://github.com/dlford/4t",
-  "licenses": [
-    {
-      "type": "GPL-3.0",
-      "url": "http://opensource.org/licenses/GPL-3.0"
-    }
-  ],
+  "license": "MIT",
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build && workbox generateSW ./workbox-config.js",
